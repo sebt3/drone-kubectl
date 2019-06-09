@@ -9,7 +9,9 @@ ENV HELM_VERSION="v2.14.1"				\
 
 COPY run.sh /run.sh
 
-RUN apk add --update ca-certificates			\
+RUN sed -i 's/dl-cdn.alpinelinux.org/ftp.halifax.rwth-aachen.de/g' /etc/apk/repositories \
+ && apk update						\
+ && apk add --update ca-certificates			\
  && apk add -t deps curl				\
  && apk add bash					\
  && curl -Lo /tmp/helm.tar.gz "${HELM_SRC}"		\
