@@ -1,21 +1,23 @@
 kind: pipeline
 name: default
 steps:
-#- name: docker
-  #image: plugins/docker
-  #settings:
-    #registry: 192.168.10.200:5000
-    #repo: "192.168.10.200:5000/${DRONE_REPO_NAME}"
-    #tags: latest
-    #insecure: true
+- name: docker
+  image: plugins/docker
+  settings:
+    registry: 192.168.10.200:5000
+    repo: "192.168.10.200:5000/${DRONE_REPO_NAME}"
+    tags: latest
+    insecure: true
 
 - name: kubectl
   image: 192.168.10.200:5000/drone-kubectl
   settings:
     secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
     kubectl: "get pods"
-    username:
+    kubernetes_server:
       from_secret: kubernetes_server
+    kubernetes_cert:
+      from_secret: kubernetes_cert
 
 ---
 kind: secret
