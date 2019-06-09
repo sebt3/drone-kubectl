@@ -14,14 +14,13 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/ftp.halifax.rwth-aachen.de/g' /etc/apk/repo
  && apk add --update ca-certificates			\
  && apk add -t deps curl				\
  && apk add bash					\
- && echo -e "-------\n${HELM_SRC}\n-----" \
  && curl -sL "${HELM_SRC}"| tar -zxvf - -C /tmp		\
  && mv /tmp/linux-${ARCH}/helm /usr/local/bin		\
  && curl -Lo /usr/local/bin/kubectl "${KUBECTL_SRC}"	\
  && chmod +x /usr/local/bin/kubectl			\
  && apk del --purge deps				\
  && chmod +x /run.sh					\
- && rm /var/cache/apk/* /tmp/*
+ && rm -rf /var/cache/apk/* /tmp/*
 
 
 CMD ["/run.sh"]
