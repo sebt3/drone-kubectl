@@ -16,7 +16,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/ftp.halifax.rwth-aachen.de/g' /etc/apk/repo
  && apk add bash					\
  && curl -sL "${HELM_SRC}"| tar -zxvf - -C /tmp		\
  && mv /tmp/linux-${ARCH}/helm /usr/local/bin		\
- && curl -Lo /usr/local/bin/kubectl "${KUBECTL_SRC}"	\
+ && curl -sLo /usr/local/bin/kubectl "${KUBECTL_SRC}"	\
  && chmod +x /usr/local/bin/kubectl			\
  && apk del --purge deps				\
  && chmod +x /run.sh					\

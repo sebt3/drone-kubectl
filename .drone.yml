@@ -9,6 +9,14 @@ steps:
     tags: latest
     insecure: true
 
+- kubectl:
+    image: 192.168.10.200:5000/drone-kubectl
+    secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
+    kubectl: 
+    - "get pods"
+    - "version"
+    - "get ns"
+    - "get deploy"
 
 ---
 kind: secret
