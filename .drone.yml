@@ -19,6 +19,10 @@ steps:
     kubernetes_cert:
       from_secret: kubernetes_cert
 
+image_pull_secrets:
+ - kubernetes_server
+ - kubernetes_cert
+ 
 ---
 kind: secret
 name: kubernetes_server
