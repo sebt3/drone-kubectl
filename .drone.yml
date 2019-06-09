@@ -9,10 +9,10 @@ steps:
     #tags: latest
     #insecure: true
 
-- kubectl:
-    image: sebt3/drone-kubectl
-    secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
-    kubectl: "get pods"
+- name: kubectl
+  image: sebt3/drone-kubectl
+  secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
+  kubectl: "get pods"
 
 ---
 kind: secret
