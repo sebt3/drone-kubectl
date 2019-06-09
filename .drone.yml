@@ -12,11 +12,7 @@ steps:
 - kubectl:
     image: sebt3/drone-kubectl
     secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
-    kubectl: 
-    - "get pods"
-    - "version"
-    - "get ns"
-    - "get deploy"
+    kubectl: "get pods"
 
 ---
 kind: secret
