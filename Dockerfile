@@ -1,6 +1,6 @@
 FROM alpine
 
-ARGS arch arm64
+ARG arch arm64
 ENV HELM_VERSION="v2.14.1"				\
     KUBECTL_VERSION="v1.14.1"				\
     HELM_SRC="https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-${arch}.tar.gz" \
