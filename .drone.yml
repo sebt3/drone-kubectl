@@ -10,9 +10,12 @@ steps:
     #insecure: true
 
 - name: kubectl
-  image: sebt3/drone-kubectl
-  secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
-  kubectl: "get pods"
+  image: 192.168.10.200:5000/drone-kubectl
+  settings:
+    secrets: [ kubernetes_server, kubernetes_cert, kubernetes_token ]
+    kubectl: "get pods"
+    username:
+      from_secret: kubernetes_server
 
 ---
 kind: secret
