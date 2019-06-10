@@ -22,7 +22,7 @@ echo "------------------------------"
 
 kubectl config set-credentials default --token=${PLUGIN_TOKEN}
 if [[ ! -z ${KUBERNETES_CERT} ]]; then
-  echo ${KUBERNETES_CERT} | base64 -d >ca.crt
+  echo ${PLUGIN_CERT} | base64 -d >ca.crt
   kubectl config set-cluster default --server=${PLUGIN_SERVER} --certificate-authority=ca.crt
 else
   echo "WARNING: Using insecure connection to cluster"
@@ -34,10 +34,17 @@ kubectl config use-context default
 
 # Run kubectl command
 if [[ ! -z ${PLUGIN_KUBECTL} ]]; then
-  kubectl ${PLUGIN_KUBECTL}
+  IFS=',' read -r -a CMDS <<< "${PLUGIN_KUBECTL}"
+  for CMD in ${CMDS[@]}; do
+    echo "running : kubectl ${CMD}"
+    kubectl ${CMD}
+  done
 fi
 
 # Run helm command
 if [[ ! -z ${PLUGIN_HELM} ]]; then
-  helm ${PLUGIN_HELM}
+  IFS=',' read -r -a CMDS <<< "${PLUGIN_HELM}"
+  for CMD in ${CMDS[@]}; do
+    helm ${CMD}
+  done
 fi
