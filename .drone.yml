@@ -12,18 +12,16 @@ steps:
 - name: kubectl
   image: 192.168.10.200:5000/drone-kubectl
   settings:
-    kubectl: "get pods"
-    kubernetes_server:
+    server:
       from_secret: kubernetes_server
-    kubernetes_cert:
+    cert:
       from_secret: kubernetes_cert
-  environment:
-    USERNAME:
+    token:
       from_secret: kubernetes_token
+    kubectl: 
+      - "get pods"
+      - "get ns"
 
-image_pull_secrets:
- - kubernetes_cert
- 
 ---
 kind: secret
 name: kubernetes_server
