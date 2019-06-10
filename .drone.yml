@@ -13,8 +13,6 @@ steps:
   image: 192.168.10.200:5000/drone-kubectl
   pull: always
   settings:
-    server:
-      from_secret: kubernetes_server
     cert:
       from_secret: kubernetes_cert
     token:
