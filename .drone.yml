@@ -17,9 +17,11 @@ steps:
       from_secret: kubernetes_cert
     token:
       from_secret: kubernetes_token
-    kubectl: 
+    kubectl:
       - "get pods"
       - "get ns"
+    helm:
+      - "list"
 
 ---
 kind: secret
