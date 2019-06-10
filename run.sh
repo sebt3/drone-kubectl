@@ -17,11 +17,9 @@
 echo "------------------------------"
 env|grep -i PLUGIN
 echo "------------------------------"
-env
-echo "------------------------------"
 
 kubectl config set-credentials default --token=${PLUGIN_TOKEN}
-if [[ ! -z ${KUBERNETES_CERT} ]]; then
+if [[ ! -z ${PLUGIN_CERT} ]]; then
   echo ${PLUGIN_CERT} | base64 -d >ca.crt
   kubectl config set-cluster default --server=${PLUGIN_SERVER} --certificate-authority=ca.crt
 else
@@ -32,10 +30,16 @@ fi
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
 
+echo "------------------------------"
+kubectl get pods -n default
+echo "------------------------------"
+
+
 # Run kubectl command
 if [[ ! -z ${PLUGIN_KUBECTL} ]]; then
   IFS=',' read -r -a CMDS <<< "${PLUGIN_KUBECTL}"
   for CMD in ${CMDS[@]}; do
+    echo "====================================="
     echo "running : kubectl ${CMD}"
     kubectl ${CMD}
   done
