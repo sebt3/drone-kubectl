@@ -10,14 +10,11 @@ ENV HELM_SRC="https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION
 COPY run.sh /run.sh
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/ftp.halifax.rwth-aachen.de/g' /etc/apk/repositories \
- && apk add --update ca-certificates			\
- && apk add -t deps curl				\
- && apk add bash					\
+ && apk add --update ca-certificates curl bash		\
  && curl -sL "${HELM_SRC}"| tar -zxvf - -C /tmp		\
  && mv /tmp/linux-${ARCH}/helm /usr/local/bin		\
  && curl -sLo /usr/local/bin/kubectl "${KUBECTL_SRC}"	\
  && chmod +x /usr/local/bin/kubectl			\
- && apk del --purge deps				\
  && chmod +x /run.sh					\
  && rm -rf /var/cache/apk/* /tmp/*
 
