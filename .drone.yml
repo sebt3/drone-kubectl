@@ -7,9 +7,12 @@ steps:
     registry: 192.168.10.200:5000
     repo: "192.168.10.200:5000/${DRONE_REPO_NAME}"
     insecure: true
+    build_args:
+      - arch=arm64
+
 
 - name: kubectl
-  image: 192.168.10.200:5000/drone-kubectl
+  image: 192.168.10.200:5000/drone-kubectl:latest
   pull: always
   settings:
     cert:
