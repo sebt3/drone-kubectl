@@ -51,7 +51,7 @@ if [[ ! -z ${PLUGIN_HELM} ]]; then
 fi
 
 ### Run push to chartmuseum
-if [[ ! -z ${PLUGIN_PUSH_TO} ]] && [[ ! -z ${PLUGIN_SOURCE} ]] && [ -d ${PLUGIN_SOURCE} ]] ; then
+if [[ ! -z ${PLUGIN_PUSH_TO} ]] && [[ ! -z ${PLUGIN_SOURCE} ]] && [[ -d ${PLUGIN_SOURCE} ]] ; then
 	DONE=1
 	ver=$(awk '/^version/{print $2}'< ${PLUGIN_SOURCE}/Chart.yaml)
 	name=${PLUGIN_SOURCE##*/}

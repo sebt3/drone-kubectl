@@ -8,7 +8,7 @@ kind: pipeline
 name: default
 steps:
 - name: kubectl
-  image: <your repo here>/drone-kubectl
+  image: sebt3/drone-kubectl
   settings:
     server:
       from_secret: kubernetes_server
@@ -51,7 +51,7 @@ kind: pipeline
 name: default
 steps:
 - name: deployment
-  image: <your repo here>/drone-kubectl
+  image: sebt3/drone-kubectl
   settings:
     cert:
       from_secret: kubernetes_cert
@@ -65,7 +65,7 @@ steps:
     tag: 1.2.3
 
 - name: statefulset
-  image: <your repo here>/drone-kubectl
+  image: sebt3/drone-kubectl
   settings:
     cert:
       from_secret: kubernetes_cert
@@ -79,7 +79,7 @@ steps:
     tag: 1.2.3
 
 - name: daemonset
-  image: <your repo here>/drone-kubectl
+  image: sebt3/drone-kubectl
   settings:
     cert:
       from_secret: kubernetes_cert
@@ -91,18 +91,6 @@ steps:
     registry: docker.io
     repo: sebt3/my_image
     tag: 1.2.3
----
-kind: secret
-name: kubernetes_cert
-get:
-  path: drone-kubernetes
-  name: cert
----
-kind: secret
-name: kubernetes_token
-get:
-  path: drone-kubernetes
-  name: token
 ```
 
 - patch_deploy: the deployment to patch
@@ -117,8 +105,8 @@ get:
 kind: pipeline
 name: default
 steps:
-- name: kubectl
-  image: <your repo here>/drone-kubectl
+- name: helm upgrade
+  image: sebt3/drone-kubectl
   settings:
     cert:
       from_secret: kubernetes_cert
@@ -131,18 +119,6 @@ steps:
     registry: docker.io
     repo: sebt3/my_image
     image_value: image.repo
----
-kind: secret
-name: kubernetes_cert
-get:
-  path: drone-kubernetes
-  name: cert
----
-kind: secret
-name: kubernetes_token
-get:
-  path: drone-kubernetes
-  name: token
 ```
 
 - upgrade_helm: the name of the helm install **required**
