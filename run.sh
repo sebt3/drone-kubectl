@@ -16,7 +16,10 @@ fi
 
 kubectl config set-context default --cluster=default --user=default
 kubectl config use-context default
-
+echo "====================================="
+pwd
+echo "====================================="
+find
 # Run kubectl command
 if [[ ! -z ${PLUGIN_KUBECTL} ]]; then
   echo "${PLUGIN_KUBECTL}"|sed 's/,/\n/g'|while read CMD;do 
