@@ -46,6 +46,7 @@ if [[ ! -z ${PLUGIN_UPGRADE_HELM} ]] &&  [[ ! -z ${PLUGIN_SOURCE} ]]; then
 		CMD=" --set ${PLUGIN_IMAGE_VALUE}=$image"
 	fi
 	if [[ ! -z ${CMD} ]];then
+		DONE=1
 		echo "====================================="
 		echo "#helm upgrade --reuse-values $CMD ${PLUGIN_UPGRADE_HELM} ${PLUGIN_SOURCE}"
 		if ! helm upgrade --reuse-values $CMD ${PLUGIN_UPGRADE_HELM} ${PLUGIN_SOURCE};then
@@ -63,6 +64,7 @@ fi
 
 ### Run helm command
 if [[ ! -z ${PLUGIN_HELM} ]]; then
+	DONE=1
 	echo "${PLUGIN_HELM}"|sed 's/,/\n/g'|while read CMD;do 
 		echo "====================================="
 		echo "# helm ${CMD}"
@@ -81,7 +83,7 @@ if [[ ! -z ${PLUGIN_PATCH_DEPLOY} ]]; then
 		echo ${PLUGIN_NAMESPACE:-"default"}|while read ns;do 
 			echo "====================================="
 			echo "Patching deployment $deploy in namespace $ns to use $image as image for $name container"
-			
+
 			if ! kubectl patch deploy -n "$ns" "${deploy}" --patch '{"spec": {"template": {"spec": {"containers": [{"image": "'"$image"'","name": "'"$name"'"}]}}}}';then
 				echo "Patching FAILED !"
 				RC=$(($RC+1))
@@ -97,7 +99,7 @@ if [[ ! -z ${PLUGIN_PATCH_STATEFULSET} ]]; then
 		echo ${PLUGIN_NAMESPACE:-"default"}|while read ns;do 
 			echo "====================================="
 			echo "Patching statefulset $deploy in namespace $ns to use $image as image for $name container"
-			
+
 			if ! kubectl patch statefulset -n "$ns" "${deploy}" --patch '{"spec": {"template": {"spec": {"containers": [{"image": "'"$image"'","name": "'"$name"'"}]}}}}';then
 				echo "Patching FAILED !"
 				RC=$(($RC+1))
@@ -113,7 +115,7 @@ if [[ ! -z ${PLUGIN_PATCH_DAEMONSET} ]]; then
 		echo ${PLUGIN_NAMESPACE:-"default"}|while read ns;do 
 			echo "====================================="
 			echo "Patching daemonset $deploy in namespace $ns to use $image as image for $name container"
-			
+
 			if ! kubectl patch daemonset -n "$ns" "${deploy}" --patch '{"spec": {"template": {"spec": {"containers": [{"image": "'"$image"'","name": "'"$name"'"}]}}}}';then
 				echo "Patching FAILED !"
 				RC=$(($RC+1))
