@@ -45,12 +45,12 @@ get:
 The setting server is optional.
 
 
-### Patch a deployment
+### Patch kubernetes ressources
 ```
 kind: pipeline
 name: default
 steps:
-- name: kubectl
+- name: deployment
   image: <your repo here>/drone-kubectl
   settings:
     cert:
@@ -58,7 +58,35 @@ steps:
     token:
       from_secret: kubernetes_token
     patch_deploy: my_deploy
-    namespace: toolchain
+    namespace: default
+    container: my_container
+    registry: docker.io
+    repo: sebt3/my_image
+    tag: 1.2.3
+
+- name: statefulset
+  image: <your repo here>/drone-kubectl
+  settings:
+    cert:
+      from_secret: kubernetes_cert
+    token:
+      from_secret: kubernetes_token
+    patch_statefulset: my_stateful
+    namespace: default
+    container: my_container
+    registry: docker.io
+    repo: sebt3/my_image
+    tag: 1.2.3
+
+- name: daemonset
+  image: <your repo here>/drone-kubectl
+  settings:
+    cert:
+      from_secret: kubernetes_cert
+    token:
+      from_secret: kubernetes_token
+    patch_daemonset: my_daemon
+    namespace: my_ns
     container: my_container
     registry: docker.io
     repo: sebt3/my_image
@@ -124,4 +152,5 @@ get:
 - repo: The image name, default to ${DRONE_REPO_NAME}
 - tag_value: setting name for the tag to be changed using the value of the following
 - tag: the image tag to use, by default will use the 1st tag in the .tags file, use "latest" if not found
+
 Either image_value or tag_value have to be set

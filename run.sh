@@ -22,7 +22,7 @@ RC=0
 DONE=0
 
 ### Defining variable for patches
-if [[ ! -z ${PLUGIN_PATCH_DEPLOY} ]] || [[ ! -z ${PLUGIN_UPGRADE_HELM} ]]; then
+if [[ ! -z ${PLUGIN_PATCH_DEPLOY} ]] || [[ ! -z ${PLUGIN_UPGRADE_HELM} ]] || [[ ! -z ${PLUGIN_PATCH_STATEFULSET} ]] || [[ ! -z ${PLUGIN_PATCH_DAEMONSET} ]]; then
 	if [[ ! -z ${PLUGIN_TAG} ]]; then
 		tag=${PLUGIN_TAG}
 	elif [ -f ".tags" ];then
