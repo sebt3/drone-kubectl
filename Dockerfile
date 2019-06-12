@@ -10,7 +10,6 @@ ENV HELM_SRC="https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION
 COPY run.sh /run.sh
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/ftp.halifax.rwth-aachen.de/g' /etc/apk/repositories \
- && apk update						\
  && apk add --update ca-certificates			\
  && apk add -t deps curl				\
  && apk add bash					\

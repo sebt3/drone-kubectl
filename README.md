@@ -9,7 +9,6 @@ name: default
 steps:
 - name: kubectl
   image: <your repo here>/drone-kubectl
-  pull: always
   settings:
     server:
       from_secret: kubernetes_server

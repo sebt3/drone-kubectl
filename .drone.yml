@@ -6,7 +6,6 @@ steps:
   settings:
     registry: 192.168.10.200:5000
     repo: "192.168.10.200:5000/${DRONE_REPO_NAME}"
-    tags: latest
     insecure: true
 
 - name: kubectl
@@ -23,12 +22,6 @@ steps:
     helm:
       - "list"
 
----
-kind: secret
-name: kubernetes_server
-get:
-  path: drone-kubernetes
-  name: server
 ---
 kind: secret
 name: kubernetes_cert

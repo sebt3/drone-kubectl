@@ -21,7 +21,7 @@ kubectl config use-context default
 if [[ ! -z ${PLUGIN_KUBECTL} ]]; then
   echo "${PLUGIN_KUBECTL}"|sed 's/,/\n/g'|while read CMD;do 
     echo "====================================="
-    echo "running : kubectl ${CMD}"
+    echo "# kubectl ${CMD}"
     kubectl ${CMD}
   done
 fi
@@ -30,7 +30,7 @@ fi
 if [[ ! -z ${PLUGIN_HELM} ]]; then
   echo "${PLUGIN_HELM}"|sed 's/,/\n/g'|while read CMD;do 
     echo "====================================="
-    echo "running : helm ${CMD}"
+    echo "# helm ${CMD}"
     helm ${CMD}
   done
 fi
