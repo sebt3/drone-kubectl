@@ -36,6 +36,32 @@ if [[ ! -z ${PLUGIN_PATCH_DEPLOY} ]] || [[ ! -z ${PLUGIN_UPGRADE_HELM} ]] || [[ 
 fi
 
 
+### Run helm command
+if [[ ! -z ${PLUGIN_HELM} ]]; then
+	DONE=1
+	echo "${PLUGIN_HELM}"|sed 's/,/\n/g'|while read CMD;do 
+		echo "====================================="
+		echo "# helm ${CMD}"
+		if ! helm ${CMD};then
+			echo "helm FAILED!"
+			RC=$(($RC+1))
+			exit $RC
+		fi
+	done
+fi
+
+### Run push to chartmuseum
+if [[ ! -z ${PLUGIN_PUSH_TO} ]] && [[ ! -z ${PLUGIN_SOURCE} ]] && [ -d ${PLUGIN_SOURCE} ]] ; then
+	DONE=1
+	ver=$(awk '/^version/{print $2}'< ${PLUGIN_SOURCE}/Chart.yaml)
+	name=${PLUGIN_SOURCE##*/}
+	if ! curl -L --data-binary "@${name}-${ver}.tgz" ${PLUGIN_PUSH_TO}/api/charts;then
+		echo "push failed FAILED!"
+		RC=$(($RC+1))
+		exit $RC
+	fi
+fi
+
 ### Run helm upgrade
 if [[ ! -z ${PLUGIN_UPGRADE_HELM} ]] &&  [[ ! -z ${PLUGIN_SOURCE} ]]; then
 	CMD=""
@@ -60,19 +86,6 @@ if [[ ! -z ${PLUGIN_UPGRADE_HELM} ]] &&  [[ ! -z ${PLUGIN_SOURCE} ]]; then
 elif [[ ! -z ${PLUGIN_UPGRADE_HELM} ]] ||  [[ ! -z ${PLUGIN_SOURCE} ]];then
 	echo "ERROR: both 'upgrade_helm' and 'source' settings are required"
 	RC=$(($RC+1))
-fi
-
-### Run helm command
-if [[ ! -z ${PLUGIN_HELM} ]]; then
-	DONE=1
-	echo "${PLUGIN_HELM}"|sed 's/,/\n/g'|while read CMD;do 
-		echo "====================================="
-		echo "# helm ${CMD}"
-		if ! helm ${CMD};then
-			echo "helm FAILED!"
-			RC=$(($RC+1))
-		fi
-	done
 fi
 
 ### Patching deployment
