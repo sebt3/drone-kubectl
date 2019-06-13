@@ -16,6 +16,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/ftp.halifax.rwth-aachen.de/g' /etc/apk/repo
  && curl -sLo /usr/local/bin/kubectl "${KUBECTL_SRC}"	\
  && chmod +x /usr/local/bin/kubectl			\
  && chmod +x /run.sh					\
+ && helm init --client-only				\
  && rm -rf /var/cache/apk/* /tmp/*
 
 

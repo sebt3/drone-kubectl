@@ -56,7 +56,7 @@ if [[ ! -z ${PLUGIN_PUSH_TO} ]] && [[ ! -z ${PLUGIN_SOURCE} ]] && [[ -d ${PLUGIN
 	ver=$(awk '/^version/{print $2}'< ${PLUGIN_SOURCE}/Chart.yaml)
 	name=${PLUGIN_SOURCE##*/}
 	echo "====================================="
-	if ! curl -L --data-binary "@${name}-${ver}.tgz" ${PLUGIN_PUSH_TO}/api/charts;then
+	if ! curl -sL --data-binary "@${name}-${ver}.tgz" ${PLUGIN_PUSH_TO}/api/charts;then
 		echo "push failed FAILED!"
 		RC=$(($RC+1))
 		exit $RC
